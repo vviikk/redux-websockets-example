@@ -6,8 +6,8 @@ import {
   usersRequested,
   userStartedTyping,
   userStoppedTyping,
-} from "../../common/message-types";
-import { typingStarted, typingStopped } from "./actions/actionTypes";
+} from '../../common/message-types';
+import { typingStarted, typingStopped } from './actions/actionTypes';
 
 const handlers = {
   [joinRequested]: ({ state, payload: currentUser }) => ({
@@ -49,7 +49,7 @@ const handlers = {
   [userStoppedTyping]: ({ state, payload: { userId } }) => ({
     ...state,
     userIdsTyping: Object.keys(state.userIdsTyping)
-      .filter((key) => key !== userId.toString())
+      .filter(key => key !== userId.toString())
       .reduce((accum, key) => ({ ...accum, [key]: true }), {}),
   }),
 };
