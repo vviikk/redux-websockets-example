@@ -1,51 +1,40 @@
-const server = require('http').createServer()
-const io = require('socket.io')(server)
+const path = require('path');
+const { ensureDir } = require('fs-extra');
+const polka = require('polka');
+const helmet = require('helmet');
+const session = require('express-session');
+const LevelStore = require('level-session-store')(session);
+const serveStatic = require('serve-static');
+const { sessionSecret, sessionStorePath } = require('./config');
+const { host, port } = require('../common/config');
+const { setupWss } = require('./ws-server');
 
-const ClientManager = require('./ClientManager')
-const ChatroomManager = require('./ChatroomManager')
-const makeHandlers = require('./handlers')
+const setup = async () => {
+  const env = process.env.NODE_ENV || 'development';
 
-const clientManager = ClientManager()
-const chatroomManager = ChatroomManager()
+  await ensureDir(sessionStorePath);
 
-io.on('connection', function (client) {
-  const {
-    handleRegister,
-    handleJoin,
-    handleLeave,
-    handleMessage,
-    handleGetChatrooms,
-    handleGetAvailableUsers,
-    handleDisconnect
-  } = makeHandlers(client, clientManager, chatroomManager)
+  const app = polka().listen({ host, port }, () =>
+    console.log(`Running on port: ${host}:${port}`),
+  );
 
-  console.log('client connected...', client.id)
-  clientManager.addClient(client)
+  const sessionStore = new LevelStore(sessionStorePath);
 
-  client.on('register', handleRegister)
+  const sessionMiddleware = session({
+    secret: sessionSecret,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: env !== 'development' },
+    // for larger, distributed, APIs use redis or something else instead
+    store: sessionStore,
+  });
 
-  client.on('join', handleJoin)
+  setupWss(app, sessionMiddleware);
 
-  client.on('leave', handleLeave)
+  app
+    .use(helmet())
+    .use(sessionMiddleware)
+    .use(serveStatic(path.join(__dirname, '/public')));
+};
 
-  client.on('message', handleMessage)
-
-  client.on('chatrooms', handleGetChatrooms)
-
-  client.on('availableUsers', handleGetAvailableUsers)
-
-  client.on('disconnect', function () {
-    console.log('client disconnect...', client.id)
-    handleDisconnect()
-  })
-
-  client.on('error', function (err) {
-    console.log('received error from client:', client.id)
-    console.log(err)
-  })
-})
-
-server.listen(3000, function (err) {
-  if (err) throw err
-  console.log('listening on port 3000')
-})
+setup();
