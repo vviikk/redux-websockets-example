@@ -26,7 +26,7 @@ module.exports = function ({ name, image }) {
     return {
       name,
       image,
-      numMembers: members.size
+      numMembers: members.size,
     }
   }
 
@@ -36,6 +36,6 @@ module.exports = function ({ name, image }) {
     getChatHistory,
     addUser,
     removeUser,
-    serialize
+    serialize,
   }
 }

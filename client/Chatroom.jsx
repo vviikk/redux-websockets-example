@@ -87,7 +87,7 @@ export default class Chatroom extends React.Component {
 
     this.state = {
       chatHistory,
-      input: ''
+      input: '',
     }
 
     this.onInput = this.onInput.bind(this)
@@ -112,7 +112,7 @@ export default class Chatroom extends React.Component {
 
   onInput(e) {
     this.setState({
-      input: e.target.value
+      input: e.target.value,
     })
   }
 
@@ -186,8 +186,8 @@ export default class Chatroom extends React.Component {
                           }
                         />
                       </NoDots>,
-                      <Divider inset />
-                    ]
+                      <Divider inset />,
+                    ],
                   )
                 }
               </List>
