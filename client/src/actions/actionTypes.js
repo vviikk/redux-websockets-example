@@ -1,3 +1,5 @@
-export const typingStarted = "typingStarted";
-export const typingStopped = "typingStopped";
-export const messageSendRequested = "messageSendRequested";
+import { getObjectFromArray } from '../../../common/utils';
+
+export default getObjectFromArray(
+  ['typingStarted', 'typingStopped', 'messageSendRequested'],
+)

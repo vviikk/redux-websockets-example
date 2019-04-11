@@ -3,7 +3,7 @@ export const setupWebsocket = ({ host, port }) =>
     const webSocket = new WebSocket(`ws://${host}:${port}`);
 
     const receive = (onMessageCb) => {
-      webSocket.onmessage = (event) => onMessageCb(JSON.parse(event.data));
+      webSocket.onmessage = event => onMessageCb(JSON.parse(event.data));
     };
 
     const send = (type, payload) =>
@@ -11,3 +11,5 @@ export const setupWebsocket = ({ host, port }) =>
 
     webSocket.onopen = () => resolve({ send, receive });
   });
+
+export default setupWebsocket;

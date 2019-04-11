@@ -4,20 +4,20 @@ import {
   usersRequested,
   userStartedTyping,
   userStoppedTyping,
-} from "../../../common/message-types";
+} from '../../../common/message-types';
 import {
   messageSendRequested,
   typingStarted,
   typingStopped,
-} from "./actionTypes";
+} from './actionTypes';
 
-export const requestUsers = (send) => send(usersRequested);
+export const requestUsers = send => send(usersRequested);
 
-export const join = (name) => (dispatch, getState, { send }) => {
+export const join = name => (dispatch, getState, { send }) => {
   send(joinRequested, { name });
 };
 
-export const sendMessage = (message) => (dispatch, getState, { send }) => {
+export const sendMessage = message => (dispatch, getState, { send }) => {
   const { currentUserIsTyping } = getState();
 
   // if we're sending a message we're probably not also typing :)
