@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Example group chat app built with socket.io and react.",
   "scripts": {
-    "server": "nodemon ./server/server.js",
+    "server": "nodemon ./server/index.js",
     "client": "nodemon --exec webpack-dev-server",
     "start": "concurrently npm:server npm:client"
   },
@@ -23,6 +23,8 @@
   "author": "justadudewhohacks",
   "license": "MIT",
   "dependencies": {
+    "@babel/polyfill": "^7.4.3",
+    "@babel/register": "^7.4.0",
     "express-session": "^1.15.6",
     "fs-extra": "^7.0.1",
     "helmet": "^3.16.0",

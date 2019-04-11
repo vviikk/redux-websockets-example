@@ -1,9 +1,11 @@
-module.exports = {
-  userJoined: "userJoined",
-  userLeft: "userLeft",
-  joinRequested: "joinRequested",
-  usersRequested: "usersRequested",
-  userStartedTyping: "userStartedTyping",
-  userStoppedTyping: "userStoppedTyping",
-  messageAdded: "messageAdded",
-};
+import { getObjectFromArray } from './utils'
+
+module.exports = getObjectFromArray([
+  'userJoined',
+  'userLeft',
+  'joinRequested',
+  'usersRequested',
+  'userStartedTyping',
+  'userStoppedTyping',
+  'messageAdded',
+]);
