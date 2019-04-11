@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, createStore, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { setupWebsocket } from './actions/websocket';
 import rootReducer from './reducers';
@@ -29,11 +29,10 @@ const setupStore = () => {
   return setupWebsocket({ host, port }).then(({ send, receive }) => {
     middleware.push(thunkMiddleware.withExtraArgument({ send }));
 
-    const store = createStore(
-      rootReducer,
-      initialState,
+    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+    const store = createStore(rootReducer, initialState, composeEnhancers(
       applyMiddleware(...middleware),
-    );
+    ));
 
     receive(store.dispatch);
     requestUsers(send);
@@ -47,5 +46,5 @@ setupStore().then((store) => {
       <App />
     </Provider>,
     document.body,
-  );
-});
+    );
+    });
