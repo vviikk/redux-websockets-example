@@ -1,5 +1,8 @@
 import { getObjectFromArray } from '../../../common/utils';
 
-export default getObjectFromArray(
+const actionTypes = getObjectFromArray(
   ['typingStarted', 'typingStopped', 'messageSendRequested'],
-)
+);
+
+module.exports = actionTypes;
+
