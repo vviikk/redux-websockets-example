@@ -5,4 +5,3 @@ const actionTypes = getObjectFromArray(
 );
 
 module.exports = actionTypes;
-

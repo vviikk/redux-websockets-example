@@ -5,11 +5,14 @@ import {
   userStartedTyping,
   userStoppedTyping,
 } from '../../../common/message-types';
+
 import {
   messageSendRequested,
   typingStarted,
   typingStopped,
 } from './actionTypes';
+
+import { typingTimerLength } from '../../../common/config'
 
 export const requestUsers = send => send(usersRequested);
 
@@ -30,7 +33,6 @@ export const sendMessage = message => (dispatch, getState, { send }) => {
   send(messageAdded, { message });
 };
 
-const typingTimerLength = 400;
 
 export const typing = () => (dispatch, getState, { send }) => {
   const { currentUserIsTyping } = getState();
